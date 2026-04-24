@@ -113,9 +113,9 @@ export function ShotGroupCard({
   const handleCopyPrompt = useCallback(() => {
     if (!group.lastPrompt) return;
     navigator.clipboard.writeText(group.lastPrompt).then(() => {
-      toast.success('提示词已复制到剪贴板');
+      toast.success('Đã sao chép prompt vào clipboard');
     }).catch(() => {
-      toast.error('复制失败');
+      toast.error('Sao chép thất bại');
     });
   }, [group.lastPrompt]);
 
@@ -143,7 +143,7 @@ export function ShotGroupCard({
     return scenes.map((s, idx) => ({
       id: s.id,
       duration: s.duration > 0 ? s.duration : 5,
-      label: `镜头${idx + 1}`,
+      label: `Shot ${idx + 1}`,
     }));
   }, [scenes]);
 
@@ -178,16 +178,16 @@ export function ShotGroupCard({
           <Layers className="h-3.5 w-3.5 text-primary shrink-0" />
           <span className="text-sm font-medium truncate">{group.name}</span>
           {isExtendChild && (
-            <span className="text-[10px] px-1.5 py-0.5 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full shrink-0">延长</span>
+            <span className="text-[10px] px-1.5 py-0.5 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full shrink-0">Kéo dài</span>
           )}
           {isEditChild && (
-            <span className="text-[10px] px-1.5 py-0.5 bg-orange-500/10 text-orange-600 dark:text-orange-400 rounded-full shrink-0">编辑</span>
+            <span className="text-[10px] px-1.5 py-0.5 bg-orange-500/10 text-orange-600 dark:text-orange-400 rounded-full shrink-0">Chỉnh sửa</span>
           )}
         </div>
 
         {/* 镜头数 */}
         <span className="text-xs text-muted-foreground shrink-0">
-          {group.sceneIds.length} 镜头
+          {group.sceneIds.length} shot
         </span>
 
         {/* 时长标签 */}
@@ -210,11 +210,10 @@ export function ShotGroupCard({
             </TooltipTrigger>
             <TooltipContent>
               {isOverBudget ? (
-                <p>总时长超出 15s 限制！请减少镜头或缩短单镜时长。</p>
+                <p>Tổng thời lượng vượt quá giới hạn 15s! Hãy giảm shot hoặc rút ngắn từng shot.</p>
               ) : (
                 <p>
-                  组内 {group.sceneIds.length} 个镜头，总时长 {actualDuration}
-                  s
+                  Trong nhóm có {group.sceneIds.length} shot, tổng thời lượng {actualDuration}s
                 </p>
               )}
             </TooltipContent>
@@ -247,7 +246,7 @@ export function ShotGroupCard({
             onClick={() => setShowRefManager(!showRefManager)}
           >
             <Paperclip className="h-3 w-3 mr-1" />
-            @引用
+            @Tham chiếu
           </Button>
           {/* AI 校准按钮 */}
           <TooltipProvider>
@@ -268,13 +267,13 @@ export function ShotGroupCard({
                   ) : (
                     <Sparkles className="h-3 w-3 mr-1" />
                   )}
-                  {isCalibrating ? '校准中' : isCalibrated ? '已校准' : 'AI校准'}
+                  {isCalibrating ? 'Đang hiệu chỉnh' : isCalibrated ? 'Đã hiệu chỉnh' : 'AI hiệu chỉnh'}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 {isCalibrated
-                  ? <p>已完成 AI 校准，点击重新校准</p>
-                  : <p>AI 分析组内镜头，生成叙事弧线、过渡设计、优化 prompt</p>
+                  ? <p>Đã hoàn thành AI hiệu chỉnh, nhấn để hiệu chỉnh lại</p>
+                  : <p>AI phân tích shot trong nhóm, tạo tuyến tường thuật, thiết kế chuyển cảnh, tối ưu prompt</p>
                 }
               </TooltipContent>
             </Tooltip>
@@ -290,17 +289,17 @@ export function ShotGroupCard({
             {isGenerating ? (
               <>
                 <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                生成中
+                Đang tạo
               </>
             ) : isCompleted ? (
               <>
                 <Film className="h-3 w-3 mr-1" />
-                重新生成
+                Tạo lại
               </>
             ) : (
               <>
                 <Play className="h-3 w-3 mr-1" />
-                生成视频
+                Tạo video
               </>
             )}
           </Button>
@@ -318,10 +317,10 @@ export function ShotGroupCard({
                       onClick={() => onExtendGroup?.(group.id)}
                     >
                       <Timer className="h-3 w-3 mr-1" />
-                      延长
+                      Kéo dài
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>基于当前视频继续延长，可向后或向前拓展</TooltipContent>
+                  <TooltipContent>Dựa trên video hiện tại để kéo dài, có thể mở rộng về sau hoặc về trước</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
               <TooltipProvider>
@@ -335,10 +334,10 @@ export function ShotGroupCard({
                       onClick={() => onEditGroup?.(group.id)}
                     >
                       <Scissors className="h-3 w-3 mr-1" />
-                      编辑
+                      Chỉnh sửa
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>对当前视频进行剧情编辑、角色替换、属性修改等</TooltipContent>
+                  <TooltipContent>Thực hiện chỉnh sửa cốt truyện, thay nhân vật, sửa thuộc tính... trên video hiện tại</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </>
@@ -396,7 +395,7 @@ export function ShotGroupCard({
           </span>
           {isOverBudget && (
             <span className="text-[10px] text-red-500 font-medium">
-              超出 {actualDuration - 15}s
+              Vượt {actualDuration - 15}s
             </span>
           )}
         </div>
@@ -409,7 +408,7 @@ export function ShotGroupCard({
             <div className="flex items-start gap-1.5">
               <Sparkles className="h-3 w-3 text-purple-500 mt-0.5 shrink-0" />
               <div>
-                <span className="text-[10px] font-medium text-purple-600 dark:text-purple-400">叙事弧线</span>
+                <span className="text-[10px] font-medium text-purple-600 dark:text-purple-400">Tuyến tường thuật</span>
                 <p className="text-xs text-muted-foreground mt-0.5">{group.narrativeArc}</p>
               </div>
             </div>
@@ -418,9 +417,9 @@ export function ShotGroupCard({
             <div className="flex items-start gap-1.5">
               <ChevronRight className="h-3 w-3 text-purple-400 mt-0.5 shrink-0" />
               <div>
-                <span className="text-[10px] font-medium text-purple-600 dark:text-purple-400">过渡设计</span>
+                <span className="text-[10px] font-medium text-purple-600 dark:text-purple-400">Thiết kế chuyển cảnh</span>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  {group.transitions.map((t, i) => `${i + 1}→${i + 2}: ${t}`).join('；')}
+                  {group.transitions.map((t, i) => `${i + 1}→${i + 2}: ${t}`).join('; ')}
                 </p>
               </div>
             </div>
@@ -428,7 +427,7 @@ export function ShotGroupCard({
           {isCalibrationFailed && group.calibrationError && (
             <div className="flex items-start gap-1.5">
               <AlertCircle className="h-3 w-3 text-red-500 mt-0.5 shrink-0" />
-              <span className="text-xs text-red-500">校准失败：{group.calibrationError}</span>
+              <span className="text-xs text-red-500">Hiệu chỉnh thất bại: {group.calibrationError}</span>
             </div>
           )}
         </div>
@@ -442,7 +441,7 @@ export function ShotGroupCard({
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <ImageIcon className="h-3.5 w-3.5 text-blue-500" />
-                <span className="text-xs text-blue-600 dark:text-blue-400">格子图</span>
+                <span className="text-xs text-blue-600 dark:text-blue-400">Ảnh lưới</span>
                 <div className="ml-auto flex items-center gap-1">
                   <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => setGridPreviewOpen(!gridPreviewOpen)}>
                     <ZoomIn className="h-3 w-3" />
@@ -470,10 +469,10 @@ export function ShotGroupCard({
             <div>
               <div className="flex items-center gap-2">
                 <Copy className="h-3.5 w-3.5 text-orange-500" />
-                <span className="text-xs text-orange-600 dark:text-orange-400">生成 Prompt</span>
+                <span className="text-xs text-orange-600 dark:text-orange-400">Prompt đã tạo</span>
                 <Button variant="ghost" size="sm" className="h-6 px-2 ml-auto text-xs" onClick={handleCopyPrompt}>
                   <Copy className="h-3 w-3 mr-1" />
-                  复制
+                  Sao chép
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground mt-1 line-clamp-3 whitespace-pre-wrap break-all">
@@ -487,7 +486,7 @@ export function ShotGroupCard({
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Film className="h-3.5 w-3.5 text-green-500" />
-                <span className="text-xs text-green-600 dark:text-green-400">视频已生成</span>
+                <span className="text-xs text-green-600 dark:text-green-400">Video đã tạo</span>
               </div>
               <video
                 src={group.videoUrl}

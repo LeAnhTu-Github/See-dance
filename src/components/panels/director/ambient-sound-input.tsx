@@ -23,7 +23,7 @@ export function AmbientSoundInput({
   value,
   onChange,
   disabled,
-  placeholder = "如：森林鸟鸣、城市喧嚣...",
+  placeholder = "Ví dụ: tiếng chim rừng, tiếng ồn phố thị...",
 }: AmbientSoundInputProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(value);
