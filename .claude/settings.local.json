@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node ./scripts/build-desktop.mjs --mac --arm64)",
+      "Bash(npx vite *)"
     ]
   }
 }
