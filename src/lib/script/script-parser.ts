@@ -240,7 +240,9 @@ export async function callChatAPI(
     throw new Error('模型未配置');
   }
   const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
-  const url = /\/v\d+$/.test(normalizedBaseUrl)
+  const baseAlreadyHasPath =
+    /\/v\d+$/.test(normalizedBaseUrl) || /\/v\d+[a-z]+\/openai$/i.test(normalizedBaseUrl);
+  const url = baseAlreadyHasPath
     ? `${normalizedBaseUrl}/chat/completions`
     : `${normalizedBaseUrl}/v1/chat/completions`;
   
@@ -315,7 +317,10 @@ export async function callChatAPI(
     };
 
     // 智谱推理模型 (GLM-4.7/4.5 等) 支持通过 thinking.type 关闭深度思考
-    if (options.disableThinking) {
+    // Gemini / Google 直连端点不认识 thinking 字段，会返回 400，必须跳过
+    const isGeminiModel = /gemini/i.test(modelName);
+    const isGoogleDirect = /generativelanguage\.googleapis\.com/i.test(normalizedBaseUrl);
+    if (options.disableThinking && !isGeminiModel && !isGoogleDirect) {
       body.thinking = { type: 'disabled' };
       console.log('[callChatAPI] 已关闭深度思考 (thinking: disabled)');
     }
