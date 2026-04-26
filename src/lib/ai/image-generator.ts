@@ -30,7 +30,12 @@ export interface ImageGenerationResult {
 
 const buildEndpoint = (baseUrl: string, path: string) => {
   const normalized = baseUrl.replace(/\/+$/, '');
-  return /\/v\d+$/.test(normalized) ? `${normalized}/${path}` : `${normalized}/v1/${path}`;
+  // Base URLs already containing a version segment (/v1, /v2, ...) or Google's
+  // OpenAI-compatible suffix (/v1beta/openai) must not get an extra /v1/ appended.
+  if (/\/v\d+$/.test(normalized) || /\/v\d+[a-z]+\/openai$/i.test(normalized)) {
+    return `${normalized}/${path}`;
+  }
+  return `${normalized}/v1/${path}`;
 };
 
 const getRootBaseUrl = (baseUrl: string): string => {
