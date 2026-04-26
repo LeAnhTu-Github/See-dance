@@ -326,8 +326,10 @@ async function submitViaChatCompletions(
 
   // Gemini 图片模型：附加官方 image_size / aspect_ratio 参数
   // 中转站（MemeFast / new_api / one_api 等）会将这些参数转发给 Gemini 原生 API 的
-  // generation_config.image_config
-  if (isGemini) {
+  // generation_config.image_config。但 Google 官方 OpenAI 兼容端点
+  // (generativelanguage.googleapis.com) 不接受这些字段，会返回 400 Unknown name。
+  const isGoogleDirect = /generativelanguage\.googleapis\.com/i.test(baseUrl);
+  if (isGemini && !isGoogleDirect) {
     const geminiResolution = geminiHasImageSize
       ? normalizeResolutionForGemini(resolution)
       : undefined; // gemini-2.5-flash-image 不支持 image_size
@@ -348,6 +350,8 @@ async function submitViaChatCompletions(
     };
 
     console.log('[ImageGenerator] Gemini image model detected, added image_size:', geminiResolution || '(not supported)', 'aspect_ratio:', aspectRatio);
+  } else if (isGemini && isGoogleDirect) {
+    console.log('[ImageGenerator] Google direct endpoint detected — skipping image_size/aspect_ratio/generation_config (only prompt-based size hint will be used)');
   }
 
   console.log('[ImageGenerator] Submitting via chat completions:', { model, endpoint, isGemini, geminiImageSize: geminiHasImageSize ? normalizeResolutionForGemini(resolution) : 'N/A' });
