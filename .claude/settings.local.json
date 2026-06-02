@@ -16,7 +16,9 @@
       "Bash(git -C \"C:/Users/Admin/Documents/xtel/moyin-creator\" diff --stat)",
       "Bash(claude agents *)",
       "Read(//c/Users/Admin/Documents/xtel/**)",
-      "Read(//c/Users/Admin/.claude/**)"
+      "Read(//c/Users/Admin/.claude/**)",
+      "Bash(node ./scripts/build-desktop.mjs --mac --arm64)",
+      "Bash(npx vite *)"
     ]
   }
 }

@@ -322,17 +322,37 @@ export function SettingsPanel() {
       } else if (normalizedBaseUrl && provider.model?.length) {
         const endpoint = buildEndpoint(normalizedBaseUrl, "chat/completions");
         const model = provider.model[0];
+        const requestBody = {
+          model,
+          messages: [{ role: "user", content: "Hi" }],
+          max_tokens: 5,
+        };
+        const maskedKey = apiKey.length > 10 ? `${apiKey.slice(0, 7)}...${apiKey.slice(-4)}` : "***";
+        console.log("[TestConnection] →", {
+          provider: provider.name,
+          platform: provider.platform,
+          endpoint,
+          model,
+          apiKey: maskedKey,
+          body: requestBody,
+        });
         response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${apiKey}`,
           },
-          body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: "Hi" }],
-            max_tokens: 5,
-          }),
+          body: JSON.stringify(requestBody),
+        });
+        const respHeaders: Record<string, string> = {};
+        response.headers.forEach((v, k) => { respHeaders[k] = v; });
+        const respText = await response.clone().text();
+        console.log("[TestConnection] ←", {
+          status: response.status,
+          statusText: response.statusText,
+          ok: response.ok,
+          headers: respHeaders,
+          body: respText,
         });
       } else {
         // For providers without chat endpoint info, just mark as configured
@@ -349,8 +369,16 @@ export function SettingsPanel() {
         toast.success("Kiểm thử kết nối thành công");
       } else {
         const errorData = await response.text();
-        console.error("API test error:", response.status, errorData);
-        toast.error(`Kiểm thử kết nối thất bại (${response.status})`);
+        console.error("[TestConnection] API error:", response.status, errorData);
+        let errMsg = "";
+        try {
+          const parsed = JSON.parse(errorData);
+          errMsg = parsed?.error?.message || parsed?.message || "";
+        } catch { /* keep raw */ }
+        toast.error(
+          `Kiểm thử kết nối thất bại (${response.status})${errMsg ? `: ${errMsg.slice(0, 200)}` : ""}`,
+          { duration: 10000 },
+        );
       }
     } catch (error) {
       console.error("Connection test error:", error);

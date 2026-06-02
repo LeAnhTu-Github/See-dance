@@ -75,6 +75,14 @@ const PLATFORM_PRESETS: Array<{
     models: ["2009613632530812930"],
   },
   {
+    platform: "openai",
+    name: "OpenAI",
+    baseUrl: "https://api.openai.com/v1",
+    description: "OpenAI chính thức (GPT Image, DALL·E, GPT-4o,...)",
+    services: ["Hội thoại", "Tạo ảnh"],
+    models: ["gpt-4o-mini", "gpt-4o", "gpt-image-1", "dall-e-3"],
+  },
+  {
     platform: "custom",
     name: "Tuỳ chỉnh",
     baseUrl: "",

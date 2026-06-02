@@ -1,7 +1,7 @@
 // Copyright (c) 2025 hotflow2024
 // Licensed under AGPL-3.0-or-later. See LICENSE for details.
 // Commercial licensing available. See COMMERCIAL_LICENSE.md.
-import { app, BrowserWindow, ipcMain, protocol, net, dialog, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, net, dialog, shell, session } from 'electron'
 import path from 'node:path'
 import fs from 'node:fs'
 import https from 'node:https'
@@ -1673,6 +1673,37 @@ protocol.registerSchemesAsPrivileged([{
 app.whenReady().then(() => {
   // Seed demo project on first run (before window creation)
   seedDemoProject()
+
+  // Bypass CORS for external AI provider APIs (OpenAI, Anthropic, Gemini, ...)
+  // The renderer runs at file:// or http://localhost; without this override, browsers
+  // reject responses that don't echo the renderer Origin in Access-Control-Allow-Origin.
+  // Authorization is via Bearer headers, so wildcard ACAO is safe (no cookies sent).
+  const ses = session.defaultSession
+  ses.webRequest.onHeadersReceived((details, callback) => {
+    const url = details.url || ''
+    // Skip our own app/dev-server traffic — only override remote API calls
+    if (url.startsWith('file://') || url.startsWith('devtools://') ||
+        url.startsWith('chrome-extension://') ||
+        (VITE_DEV_SERVER_URL && url.startsWith(VITE_DEV_SERVER_URL))) {
+      callback({})
+      return
+    }
+    const headers: Record<string, string | string[]> = { ...(details.responseHeaders || {}) }
+    // Drop any existing ACAO/ACAH/ACAM headers (case-insensitive) before overriding
+    for (const key of Object.keys(headers)) {
+      const lower = key.toLowerCase()
+      if (lower === 'access-control-allow-origin' ||
+          lower === 'access-control-allow-headers' ||
+          lower === 'access-control-allow-methods' ||
+          lower === 'access-control-allow-credentials') {
+        delete headers[key]
+      }
+    }
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Headers'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, PATCH'
+    callback({ responseHeaders: headers })
+  })
 
   scheduleAutoClean()
   // Handle local-image:// protocol
