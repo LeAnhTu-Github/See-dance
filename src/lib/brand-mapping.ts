@@ -32,7 +32,7 @@ export const BRAND_REGISTRY: Record<string, BrandInfo> = {
   minimax:      { displayName: 'Minimax',              color: '#E2167E' },
   ollama:       { displayName: 'Ollama',               color: '#333333' },
   mistral:      { displayName: 'Mistral',              color: '#FA500F' },
-  hunyuan:      { displayName: '腾讯',                  color: '#0055E9' },
+  hunyuan:      { displayName: 'Tencent',              color: '#0055E9' },
   vidu:         { displayName: 'Vidu',                 color: '#333333' },
   replicate:    { displayName: 'Replicate',            color: '#333333' },
   wenxin:       { displayName: 'Wenxin (文心)',         color: '#0A51C3' },
@@ -43,7 +43,7 @@ export const BRAND_REGISTRY: Record<string, BrandInfo> = {
   runway:       { displayName: 'Runway',               color: '#333333' },
   ideogram:     { displayName: 'Ideogram',             color: '#333333' },
   suno:         { displayName: 'Suno',                 color: '#333333' },
-  other:        { displayName: '其他',                  color: '#6B7280' },
+  other:        { displayName: 'Khác',                 color: '#6B7280' },
 };
 
 /**

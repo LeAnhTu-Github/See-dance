@@ -788,7 +788,7 @@ ${gridItemsZh}
     // viewpoints 属性可能来自剧本的 scriptData.scenes，通过 pendingSceneData 传递
     const sceneViewpoints = (selectedScene as any)?.viewpoints || (sceneData as any)?.viewpoints;
     const hasAIViewpoints = sceneViewpoints && sceneViewpoints.length > 0;
-    const sourceText = hasAIViewpoints ? 'AI 分析' : '关键词提取';
+    const sourceText = hasAIViewpoints ? 'AI phân tích' : 'Trích xuất từ khoá';
     toast.success(`${sourceText} ${result.viewpoints.length} góc nhìn, prompt đã được tạo`);
   };
 
@@ -2053,7 +2053,7 @@ No characters, empty environment.`;
             const batchAiFolder = getOrCreateCategoryFolder('ai-image');
             addMediaFromUrl({
               url: localPath,
-              name: `场景-${childScene.name}-${view.name}`,
+              name: `Cảnh-${childScene.name}-${view.name}`,
               type: 'image',
               source: 'ai-image',
               folderId: batchAiFolder,

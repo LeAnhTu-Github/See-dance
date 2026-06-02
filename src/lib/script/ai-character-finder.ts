@@ -447,7 +447,7 @@ export async function findCharacterByDescription(
       confidence: 0,
       episodeNumbers: [],
       contexts: [],
-      message: '无法识别角色名。请用类似"缺第10集的王大哥"或"添加张小宝这个角色"的方式描述。',
+      message: 'Không nhận diện được tên nhân vật. Vui lòng mô tả theo kiểu như "thiếu nhân vật Vương đại ca ở tập 10" hoặc "thêm nhân vật Trương Tiểu Bảo".',
     };
   }
   
@@ -465,7 +465,7 @@ export async function findCharacterByDescription(
       confidence: 1,
       episodeNumbers: [],
       contexts: [],
-      message: `角色「${existing.name}」已存在于角色列表中。`,
+      message: `Nhân vật「${existing.name}」đã có trong danh sách nhân vật.`,
       character: existing,
     };
   }
@@ -481,9 +481,9 @@ export async function findCharacterByDescription(
       confidence: 0.3,
       episodeNumbers: [],
       contexts: [],
-      message: episodeNumber 
-        ? `在第 ${episodeNumber} 集中未找到角色「${name}」。是否仍要创建这个角色？`
-        : `在剧本中未找到角色「${name}」。是否仍要创建这个角色？`,
+      message: episodeNumber
+        ? `Không tìm thấy nhân vật「${name}」trong tập ${episodeNumber}. Bạn vẫn muốn tạo nhân vật này chứ?`
+        : `Không tìm thấy nhân vật「${name}」trong kịch bản. Bạn vẫn muốn tạo nhân vật này chứ?`,
     };
   }
   
@@ -509,7 +509,7 @@ export async function findCharacterByDescription(
     confidence,
     episodeNumbers: searchResult.episodeNumbers,
     contexts: searchResult.contexts,
-    message: `找到角色「${character.name}」，出现在第 ${searchResult.episodeNumbers.join(', ')} 集。`,
+    message: `Đã tìm thấy nhân vật「${character.name}」, xuất hiện ở tập ${searchResult.episodeNumbers.join(', ')}.`,
     character,
   };
 }
@@ -525,7 +525,7 @@ export function quickSearchCharacter(
   const { name, episodeNumber } = parseUserQuery(userQuery);
   
   if (!name) {
-    return { name: null, found: false, message: '请输入角色名' };
+    return { name: null, found: false, message: 'Vui lòng nhập tên nhân vật' };
   }
   
   // 检查已存在
@@ -537,7 +537,7 @@ export function quickSearchCharacter(
     return { 
       name: existing.name, 
       found: true, 
-      message: `角色「${existing.name}」已存在`,
+      message: `Nhân vật「${existing.name}」đã tồn tại`,
       existingChar: existing,
     };
   }
@@ -549,13 +549,13 @@ export function quickSearchCharacter(
     return {
       name,
       found: true,
-      message: `找到「${name}」，出现在第 ${searchResult.episodeNumbers.join(', ')} 集`,
+      message: `Đã tìm thấy「${name}」, xuất hiện ở tập ${searchResult.episodeNumbers.join(', ')}`,
     };
   }
   
   return {
     name,
     found: false,
-    message: `未在剧本中找到「${name}」`,
+    message: `Không tìm thấy「${name}」trong kịch bản`,
   };
 }

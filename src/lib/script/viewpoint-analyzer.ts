@@ -56,10 +56,10 @@ export async function analyzeSceneViewpoints(
   if (shots.length === 0) {
     return {
       viewpoints: [
-        { id: 'overview', name: '全景', nameEn: 'Overview', description: '整体空间', descriptionEn: 'Overall space', keyProps: [], keyPropsEn: [], shotIndexes: [] },
-        { id: 'detail', name: '细节', nameEn: 'Detail', description: '细节特写', descriptionEn: 'Detail close-up', keyProps: [], keyPropsEn: [], shotIndexes: [] },
+        { id: 'overview', name: '全景', nameEn: 'Overview', description: 'Không gian tổng thể', descriptionEn: 'Overall space', keyProps: [], keyPropsEn: [], shotIndexes: [] },
+        { id: 'detail', name: '细节', nameEn: 'Detail', description: 'Cận cảnh chi tiết', descriptionEn: 'Detail close-up', keyProps: [], keyPropsEn: [], shotIndexes: [] },
       ],
-      analysisNote: '无分镜，使用默认视角',
+      analysisNote: 'Không có phân cảnh, dùng góc nhìn mặc định',
     };
   }
   
@@ -170,7 +170,7 @@ ${shotSummaries}
     
     const viewpoints = (parsed.viewpoints || []).map((v: any, idx: number) => ({
       id: v.id || `viewpoint_${idx}`,
-      name: v.name || '未命名视角',
+      name: v.name || 'Góc nhìn chưa đặt tên',
       nameEn: v.nameEn || 'Unnamed Viewpoint',
       description: v.description || '',
       descriptionEn: v.descriptionEn || '',
@@ -195,11 +195,11 @@ ${shotSummaries}
     // 降级：返回基础视角
     return {
       viewpoints: [
-        { id: 'overview', name: '全景', nameEn: 'Overview', description: '整体空间布局', descriptionEn: 'Overall spatial layout', keyProps: [], keyPropsEn: [], shotIndexes: [] },
-        { id: 'medium', name: '中景', nameEn: 'Medium Shot', description: '中景视角', descriptionEn: 'Medium view', keyProps: [], keyPropsEn: [], shotIndexes: [] },
-        { id: 'detail', name: '细节', nameEn: 'Detail', description: '细节特写', descriptionEn: 'Detail close-up', keyProps: [], keyPropsEn: [], shotIndexes: [] },
+        { id: 'overview', name: '全景', nameEn: 'Overview', description: 'Bố cục không gian tổng thể', descriptionEn: 'Overall spatial layout', keyProps: [], keyPropsEn: [], shotIndexes: [] },
+        { id: 'medium', name: '中景', nameEn: 'Medium Shot', description: 'Góc nhìn trung cảnh', descriptionEn: 'Medium view', keyProps: [], keyPropsEn: [], shotIndexes: [] },
+        { id: 'detail', name: '细节', nameEn: 'Detail', description: 'Cận cảnh chi tiết', descriptionEn: 'Detail close-up', keyProps: [], keyPropsEn: [], shotIndexes: [] },
       ],
-      analysisNote: 'AI 分析失败，使用默认视角',
+      analysisNote: 'Phân tích AI thất bại, dùng góc nhìn mặc định',
     };
   }
 }
@@ -217,7 +217,7 @@ export async function analyzeMultipleScenesViewpoints(
   for (let i = 0; i < scenesWithShots.length; i++) {
     const { scene, shots } = scenesWithShots[i];
     
-    onProgress?.(i + 1, scenesWithShots.length, scene.name || scene.location || '未知场景');
+    onProgress?.(i + 1, scenesWithShots.length, scene.name || scene.location || 'Cảnh không xác định');
     
     const result = await analyzeSceneViewpoints(scene, shots, options);
     results.set(scene.id, result);

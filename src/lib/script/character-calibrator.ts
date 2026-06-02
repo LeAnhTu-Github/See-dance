@@ -790,7 +790,7 @@ export function convertToScriptCharacters(
       identityAnchors: c.identityAnchors || original?.identityAnchors,
       negativePrompt: c.negativePrompt || original?.negativePrompt,
       // 标记重要性，便于UI展示
-      tags: [c.importance, `出场${c.appearanceCount}次`, ...(original?.tags || [])],
+      tags: [c.importance, `Xuất hiện ${c.appearanceCount} lần`, ...(original?.tags || [])],
     };
   });
 }

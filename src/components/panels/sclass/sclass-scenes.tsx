@@ -787,10 +787,10 @@ export function SClassScenes({ onBack, onGenerateVideos }: SplitScenesProps) {
     try {
       // Build variation labels based on type
       const variationLabels = variationType === 'angle'
-        ? ['正面偏左', '正面偏右', '侧面特写', '全景俯瞰']
+        ? ['Chính diện lệch trái', 'Chính diện lệch phải', 'Cận cảnh nghiêng', 'Toàn cảnh từ trên']
         : variationType === 'composition'
-          ? ['全身远景', '半身中景', '面部特写', '环境交代']
-          : ['动作起始', '动作过程', '动作高潮', '动作结束'];
+          ? ['Toàn thân cảnh xa', 'Bán thân trung cảnh', 'Cận cảnh khuôn mặt', 'Bối cảnh môi trường']
+          : ['Khởi đầu hành động', 'Diễn tiến hành động', 'Cao trào hành động', 'Kết thúc hành động'];
 
       const variationPrompts = variationType === 'angle'
         ? ['slight left angle view', 'slight right angle view', 'side profile close-up', 'wide aerial overview']

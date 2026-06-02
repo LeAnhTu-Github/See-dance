@@ -45,14 +45,14 @@ export const HORIZONTAL_DIRECTIONS: Array<{
   label: string;
   degrees: number;
 }> = [
-  { id: 'front', label: '正面', degrees: 0 },
-  { id: 'front-right-quarter', label: '右前', degrees: 45 },
-  { id: 'right-side', label: '右侧', degrees: 90 },
-  { id: 'back-right-quarter', label: '右后', degrees: 135 },
-  { id: 'back', label: '背面', degrees: 180 },
-  { id: 'back-left-quarter', label: '左后', degrees: 225 },
-  { id: 'left-side', label: '左侧', degrees: 270 },
-  { id: 'front-left-quarter', label: '左前', degrees: 315 },
+  { id: 'front', label: 'Chính diện', degrees: 0 },
+  { id: 'front-right-quarter', label: 'Chếch phải', degrees: 45 },
+  { id: 'right-side', label: 'Bên phải', degrees: 90 },
+  { id: 'back-right-quarter', label: 'Sau phải', degrees: 135 },
+  { id: 'back', label: 'Phía sau', degrees: 180 },
+  { id: 'back-left-quarter', label: 'Sau trái', degrees: 225 },
+  { id: 'left-side', label: 'Bên trái', degrees: 270 },
+  { id: 'front-left-quarter', label: 'Chếch trái', degrees: 315 },
 ];
 
 // 俯仰角度定义
@@ -61,10 +61,10 @@ export const ELEVATION_ANGLES: Array<{
   label: string;
   description: string;
 }> = [
-  { id: 'low-angle', label: '仰视', description: '从下往上拍' },
-  { id: 'eye-level', label: '平视', description: '水平视角' },
-  { id: 'elevated', label: '微俯视', description: '略微俯视' },
-  { id: 'high-angle', label: '大俯视', description: '从上往下拍' },
+  { id: 'low-angle', label: 'Góc thấp', description: 'Quay từ dưới lên' },
+  { id: 'eye-level', label: 'Ngang tầm mắt', description: 'Góc nhìn ngang' },
+  { id: 'elevated', label: 'Hơi cao', description: 'Hơi nhìn xuống' },
+  { id: 'high-angle', label: 'Góc cao', description: 'Quay từ trên xuống' },
 ];
 
 // 景别定义
@@ -73,9 +73,9 @@ export const SHOT_SIZES: Array<{
   label: string;
   description: string;
 }> = [
-  { id: 'close-up', label: '特写', description: 'Close-up' },
-  { id: 'medium-shot', label: '中景', description: 'Medium Shot' },
-  { id: 'wide-shot', label: '远景', description: 'Wide Shot' },
+  { id: 'close-up', label: 'Cận cảnh', description: 'Close-up' },
+  { id: 'medium-shot', label: 'Trung cảnh', description: 'Medium Shot' },
+  { id: 'wide-shot', label: 'Toàn cảnh xa', description: 'Wide Shot' },
 ];
 
 // 方向到提示词的精确映射
@@ -179,19 +179,19 @@ export const COMMON_ANGLES: Array<{
   preset: Pick<AnglePreset, 'direction' | 'elevation' | 'shotSize'>;
 }> = [
   {
-    name: '正面平视中景',
+    name: 'Chính diện ngang tầm mắt trung cảnh',
     preset: { direction: 'front', elevation: 'eye-level', shotSize: 'medium-shot' },
   },
   {
-    name: '右前平视中景',
+    name: 'Chếch phải ngang tầm mắt trung cảnh',
     preset: { direction: 'front-right-quarter', elevation: 'eye-level', shotSize: 'medium-shot' },
   },
   {
-    name: '侧面平视中景',
+    name: 'Bên cạnh ngang tầm mắt trung cảnh',
     preset: { direction: 'right-side', elevation: 'eye-level', shotSize: 'medium-shot' },
   },
   {
-    name: '背面平视中景',
+    name: 'Phía sau ngang tầm mắt trung cảnh',
     preset: { direction: 'back', elevation: 'eye-level', shotSize: 'medium-shot' },
   },
 ];

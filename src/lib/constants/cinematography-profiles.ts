@@ -86,11 +86,11 @@ export interface CinematographyProfile {
 // ==================== 分类信息 ====================
 
 export const CINEMATOGRAPHY_CATEGORIES: { id: CinematographyCategory; name: string; emoji: string }[] = [
-  { id: 'cinematic', name: '电影类', emoji: '🎬' },
-  { id: 'documentary', name: '纪实类', emoji: '📹' },
-  { id: 'stylized', name: '风格化', emoji: '🎨' },
-  { id: 'genre', name: '类型片', emoji: '🎭' },
-  { id: 'era', name: '时代风格', emoji: '📅' },
+  { id: 'cinematic', name: 'Điện ảnh', emoji: '🎬' },
+  { id: 'documentary', name: 'Tài liệu', emoji: '📹' },
+  { id: 'stylized', name: 'Phong cách hóa', emoji: '🎨' },
+  { id: 'genre', name: 'Phim thể loại', emoji: '🎭' },
+  { id: 'era', name: 'Phong cách thời đại', emoji: '📅' },
 ];
 
 // ==================== 预设列表 ====================
@@ -100,10 +100,10 @@ export const CINEMATOGRAPHY_CATEGORIES: { id: CinematographyCategory; name: stri
 const CINEMATIC_PROFILES: CinematographyProfile[] = [
   {
     id: 'classic-cinematic',
-    name: '经典电影',
+    name: 'Điện ảnh kinh điển',
     nameEn: 'Classic Cinematic',
     category: 'cinematic',
-    description: '标准院线电影质感，三点布光，自然色温，匀速轨道运镜，画面端正大气',
+    description: 'Chất điện ảnh chiếu rạp tiêu chuẩn, ánh sáng ba điểm, nhiệt độ màu tự nhiên, di chuyển ray đều, khung hình chỉn chu khoáng đạt',
     emoji: '🎞️',
     defaultLighting: { style: 'natural', direction: 'three-point', colorTemperature: 'warm' },
     defaultFocus: { depthOfField: 'medium', focusTransition: 'rack-between' },
@@ -117,10 +117,10 @@ const CINEMATIC_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'film-noir',
-    name: '黑色电影',
+    name: 'Phim đen (Film Noir)',
     nameEn: 'Film Noir',
     category: 'cinematic',
-    description: '低调布光、强烈明暗对比、侧光为主、冷色调、雾气弥漫、手持呼吸感',
+    description: 'Ánh sáng low-key, tương phản sáng tối mạnh, chủ yếu ánh sáng bên, tông màu lạnh, sương mù dày, cảm giác rung của máy cầm tay',
     emoji: '🖤',
     defaultLighting: { style: 'low-key', direction: 'side', colorTemperature: 'cool' },
     defaultFocus: { depthOfField: 'shallow', focusTransition: 'rack-to-fg' },
@@ -134,10 +134,10 @@ const CINEMATIC_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'epic-blockbuster',
-    name: '史诗大片',
+    name: 'Bom tấn sử thi',
     nameEn: 'Epic Blockbuster',
     category: 'cinematic',
-    description: '高调明亮、正面光、深景深、摇臂大幅运动、镜头光晕、宏大感',
+    description: 'Ánh sáng high-key rực rỡ, ánh sáng chính diện, độ sâu trường ảnh lớn, cần trục chuyển động mạnh, lóa ống kính, cảm giác hoành tráng',
     emoji: '⚔️',
     defaultLighting: { style: 'high-key', direction: 'front', colorTemperature: 'neutral' },
     defaultFocus: { depthOfField: 'deep', focusTransition: 'none' },
@@ -151,10 +151,10 @@ const CINEMATIC_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'intimate-drama',
-    name: '亲密剧情',
+    name: 'Tâm lý gần gũi',
     nameEn: 'Intimate Drama',
     category: 'cinematic',
-    description: '自然侧光、暖色温、浅景深、三脚架静态、安静内敛、聚焦人物情绪',
+    description: 'Ánh sáng bên tự nhiên, tông màu ấm, độ sâu trường ảnh nông, chân máy tĩnh, yên tĩnh nội tâm, tập trung vào cảm xúc nhân vật',
     emoji: '🫂',
     defaultLighting: { style: 'natural', direction: 'side', colorTemperature: 'warm' },
     defaultFocus: { depthOfField: 'shallow', focusTransition: 'rack-between' },
@@ -168,10 +168,10 @@ const CINEMATIC_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'romantic-film',
-    name: '浪漫爱情',
+    name: 'Lãng mạn tình yêu',
     nameEn: 'Romantic Film',
     category: 'cinematic',
-    description: '逆光黄金时段、极浅景深、斯坦尼康丝滑跟随、丁达尔光效、梦幻柔和',
+    description: 'Ngược sáng giờ vàng, độ sâu trường ảnh cực nông, Steadicam bám theo mượt mà, hiệu ứng tia sáng Tyndall, mơ màng dịu nhẹ',
     emoji: '💕',
     defaultLighting: { style: 'natural', direction: 'back', colorTemperature: 'golden-hour' },
     defaultFocus: { depthOfField: 'ultra-shallow', focusTransition: 'pull-focus' },
@@ -191,10 +191,10 @@ const CINEMATIC_PROFILES: CinematographyProfile[] = [
 const DOCUMENTARY_PROFILES: CinematographyProfile[] = [
   {
     id: 'documentary-raw',
-    name: '纪实手持',
+    name: 'Tài liệu cầm tay',
     nameEn: 'Raw Documentary',
     category: 'documentary',
-    description: '手持呼吸感、自然光、中等景深、正面光、无修饰、真实粗粝',
+    description: 'Cảm giác rung của máy cầm tay, ánh sáng tự nhiên, độ sâu trường ảnh trung bình, ánh sáng chính diện, không chỉnh sửa, chân thực thô ráp',
     emoji: '📹',
     defaultLighting: { style: 'natural', direction: 'front', colorTemperature: 'neutral' },
     defaultFocus: { depthOfField: 'medium', focusTransition: 'pull-focus' },
@@ -208,10 +208,10 @@ const DOCUMENTARY_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'news-report',
-    name: '新闻纪实',
+    name: 'Phóng sự tin tức',
     nameEn: 'News Report',
     category: 'documentary',
-    description: '肩扛、高调光、深景深、中性色温、信息优先、画面清晰锐利',
+    description: 'Vác vai, ánh sáng high-key, độ sâu trường ảnh lớn, tông màu trung tính, ưu tiên thông tin, hình ảnh rõ nét sắc bén',
     emoji: '📡',
     defaultLighting: { style: 'high-key', direction: 'front', colorTemperature: 'neutral' },
     defaultFocus: { depthOfField: 'deep', focusTransition: 'none' },
@@ -230,10 +230,10 @@ const DOCUMENTARY_PROFILES: CinematographyProfile[] = [
 const STYLIZED_PROFILES: CinematographyProfile[] = [
   {
     id: 'cyberpunk-neon',
-    name: '赛博朋克',
+    name: 'Cyberpunk',
     nameEn: 'Cyberpunk Neon',
     category: 'stylized',
-    description: '霓虹灯光、轮廓光、混合色温、浅景深、稳定器滑动、薄霾弥漫',
+    description: 'Ánh đèn neon, ánh sáng viền, tông màu pha trộn, độ sâu trường ảnh nông, gimbal trượt, sương mù mỏng lan tỏa',
     emoji: '🌃',
     defaultLighting: { style: 'neon', direction: 'rim', colorTemperature: 'mixed' },
     defaultFocus: { depthOfField: 'shallow', focusTransition: 'rack-to-bg' },
@@ -248,10 +248,10 @@ const STYLIZED_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'wuxia-classic',
-    name: '古典武侠',
+    name: 'Võ hiệp cổ điển',
     nameEn: 'Classic Wuxia',
     category: 'stylized',
-    description: '自然侧光、暖色温、中景深、摇臂升降、薄雾飘渺、古韵悠然',
+    description: 'Ánh sáng bên tự nhiên, tông màu ấm, độ sâu trường ảnh trung bình, cần trục lên xuống, sương mù mờ ảo, cổ kính thanh thoát',
     emoji: '🗡️',
     defaultLighting: { style: 'natural', direction: 'side', colorTemperature: 'warm' },
     defaultFocus: { depthOfField: 'medium', focusTransition: 'rack-between' },
@@ -265,10 +265,10 @@ const STYLIZED_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'horror-thriller',
-    name: '恐怖惊悚',
+    name: 'Kinh dị giật gân',
     nameEn: 'Horror Thriller',
     category: 'stylized',
-    description: '低调布光、底光不安感、冷色调、浅景深、手持颤抖、浓雾遮蔽',
+    description: 'Ánh sáng low-key, ánh sáng từ dưới gây bất an, tông màu lạnh, độ sâu trường ảnh nông, máy cầm tay rung, sương mù dày che khuất',
     emoji: '👻',
     defaultLighting: { style: 'low-key', direction: 'bottom', colorTemperature: 'cool' },
     defaultFocus: { depthOfField: 'shallow', focusTransition: 'rack-to-bg' },
@@ -282,10 +282,10 @@ const STYLIZED_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'music-video',
-    name: 'MV风格',
+    name: 'Phong cách MV',
     nameEn: 'Music Video',
     category: 'stylized',
-    description: '霓虹逆光、混合色温、极浅景深、斯坦尼康环绕、光粒子飞舞、视觉冲击力强',
+    description: 'Ngược sáng neon, tông màu pha trộn, độ sâu trường ảnh cực nông, Steadicam xoay quanh, hạt sáng bay lượn, sức hút thị giác mạnh',
     emoji: '🎵',
     defaultLighting: { style: 'neon', direction: 'back', colorTemperature: 'mixed' },
     defaultFocus: { depthOfField: 'ultra-shallow', focusTransition: 'pull-focus' },
@@ -305,10 +305,10 @@ const STYLIZED_PROFILES: CinematographyProfile[] = [
 const GENRE_PROFILES: CinematographyProfile[] = [
   {
     id: 'family-warmth',
-    name: '家庭温情',
+    name: 'Ấm áp gia đình',
     nameEn: 'Family Warmth',
     category: 'genre',
-    description: '自然正面光、暖色温3200K、中等景深、三脚架稳定、温暖如阳光洒入客厅',
+    description: 'Ánh sáng chính diện tự nhiên, tông màu ấm 3200K, độ sâu trường ảnh trung bình, chân máy ổn định, ấm áp như nắng tràn vào phòng khách',
     emoji: '🏠',
     defaultLighting: { style: 'natural', direction: 'front', colorTemperature: 'warm' },
     defaultFocus: { depthOfField: 'medium', focusTransition: 'rack-between' },
@@ -322,10 +322,10 @@ const GENRE_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'action-intense',
-    name: '动作激烈',
+    name: 'Hành động dữ dội',
     nameEn: 'Intense Action',
     category: 'genre',
-    description: '高调侧光、中性色温、中景深、肩扛快速跟拍、尘土飞扬',
+    description: 'Ánh sáng bên high-key, tông màu trung tính, độ sâu trường ảnh trung bình, vác vai bám theo nhanh, bụi bay mù mịt',
     emoji: '💥',
     defaultLighting: { style: 'high-key', direction: 'side', colorTemperature: 'neutral' },
     defaultFocus: { depthOfField: 'medium', focusTransition: 'pull-focus' },
@@ -340,10 +340,10 @@ const GENRE_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'suspense-mystery',
-    name: '悬疑推理',
+    name: 'Trinh thám hồi hộp',
     nameEn: 'Suspense Mystery',
     category: 'genre',
-    description: '低调侧光、冷色调、浅景深、轨道缓推、薄雾笼罩、隐藏与揭示',
+    description: 'Ánh sáng bên low-key, tông màu lạnh, độ sâu trường ảnh nông, ray đẩy chậm, sương mù bao phủ, ẩn giấu và hé lộ',
     emoji: '🔍',
     defaultLighting: { style: 'low-key', direction: 'side', colorTemperature: 'cool' },
     defaultFocus: { depthOfField: 'shallow', focusTransition: 'rack-to-fg' },
@@ -362,10 +362,10 @@ const GENRE_PROFILES: CinematographyProfile[] = [
 const ERA_PROFILES: CinematographyProfile[] = [
   {
     id: 'hk-retro-90s',
-    name: '90s港片',
+    name: 'Phim Hồng Kông thập niên 90',
     nameEn: '90s Hong Kong',
     category: 'era',
-    description: '霓虹侧光、混合色温、中景深、手持晃动、薄霾弥漫、王家卫式忧郁',
+    description: 'Ánh sáng bên neon, tông màu pha trộn, độ sâu trường ảnh trung bình, máy cầm tay rung lắc, sương mù mỏng lan tỏa, u sầu kiểu Vương Gia Vệ',
     emoji: '🌙',
     defaultLighting: { style: 'neon', direction: 'side', colorTemperature: 'mixed' },
     defaultFocus: { depthOfField: 'medium', focusTransition: 'rack-between' },
@@ -379,10 +379,10 @@ const ERA_PROFILES: CinematographyProfile[] = [
   },
   {
     id: 'golden-age-hollywood',
-    name: '好莱坞黄金时代',
+    name: 'Hollywood thời hoàng kim',
     nameEn: 'Golden Age Hollywood',
     category: 'era',
-    description: '高调三点布光、暖色温、深景深、轨道优雅运动、光芒四射、端庄华丽',
+    description: 'Ánh sáng ba điểm high-key, tông màu ấm, độ sâu trường ảnh lớn, ray chuyển động thanh lịch, rạng rỡ tỏa sáng, trang nhã lộng lẫy',
     emoji: '⭐',
     defaultLighting: { style: 'high-key', direction: 'three-point', colorTemperature: 'warm' },
     defaultFocus: { depthOfField: 'deep', focusTransition: 'none' },
@@ -414,11 +414,11 @@ export const CINEMATOGRAPHY_PROFILE_CATEGORIES: {
   emoji: string;
   profiles: readonly CinematographyProfile[];
 }[] = [
-  { id: 'cinematic', name: '电影类', emoji: '🎬', profiles: CINEMATIC_PROFILES },
-  { id: 'documentary', name: '纪实类', emoji: '📹', profiles: DOCUMENTARY_PROFILES },
-  { id: 'stylized', name: '风格化', emoji: '🎨', profiles: STYLIZED_PROFILES },
-  { id: 'genre', name: '类型片', emoji: '🎭', profiles: GENRE_PROFILES },
-  { id: 'era', name: '时代风格', emoji: '📅', profiles: ERA_PROFILES },
+  { id: 'cinematic', name: 'Điện ảnh', emoji: '🎬', profiles: CINEMATIC_PROFILES },
+  { id: 'documentary', name: 'Tài liệu', emoji: '📹', profiles: DOCUMENTARY_PROFILES },
+  { id: 'stylized', name: 'Phong cách hóa', emoji: '🎨', profiles: STYLIZED_PROFILES },
+  { id: 'genre', name: 'Phim thể loại', emoji: '🎭', profiles: GENRE_PROFILES },
+  { id: 'era', name: 'Phong cách thời đại', emoji: '📅', profiles: ERA_PROFILES },
 ];
 
 /** 根据 ID 获取摄影档案 */

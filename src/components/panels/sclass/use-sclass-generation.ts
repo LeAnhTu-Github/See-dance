@@ -147,7 +147,7 @@ export function useSClassGeneration() {
           groupId: group.id,
           success: false,
           videoUrl: null,
-          error: "无活跃项目",
+          error: "Không có dự án đang hoạt động",
         };
       }
 
@@ -169,7 +169,7 @@ export function useSClassGeneration() {
           groupId: group.id,
           success: false,
           videoUrl: null,
-          error: "请先在设置中配置视频生成 API Key",
+          error: "Vui lòng cấu hình API Key tạo video trong Cài đặt trước",
         };
       }
       const sclassProjectData = getProjectData(projectId);
@@ -190,7 +190,7 @@ export function useSClassGeneration() {
           groupId: group.id,
           success: false,
           videoUrl: null,
-          error: "组内无场景",
+          error: "Nhóm không có cảnh nào",
         };
       }
 
@@ -415,7 +415,7 @@ export function useSClassGeneration() {
         }
 
         if (!videoUrl) {
-          throw lastVideoError || new Error("视频生成失败：没有可用 API Key");
+          throw lastVideoError || new Error("Tạo video thất bại: không có API Key khả dụng");
         }
 
         // 7. 保存视频到本地
@@ -461,7 +461,7 @@ export function useSClassGeneration() {
         };
       } catch (error) {
         const err = error as Error;
-        const errorMsg = err.message || "视频生成失败";
+        const errorMsg = err.message || "Tạo video thất bại";
         const isModeration = isContentModerationError(err);
 
         console.error("[SClassGen] Group generation failed:", err);
@@ -469,7 +469,7 @@ export function useSClassGeneration() {
         updateGroupVideoStatus(group.id, {
           videoStatus: "failed",
           videoProgress: 0,
-          videoError: isModeration ? `内容审核未通过: ${errorMsg}` : errorMsg,
+          videoError: isModeration ? `Không vượt qua kiểm duyệt nội dung: ${errorMsg}` : errorMsg,
         });
 
         return {
@@ -701,7 +701,7 @@ export function useSClassGeneration() {
         }
 
         if (!videoUrl) {
-          throw lastVideoError || new Error("视频生成失败：没有可用 API Key");
+          throw lastVideoError || new Error("Tạo video thất bại: không có API Key khả dụng");
         }
 
         const localUrl = await saveVideoLocally(videoUrl, sceneId);
@@ -806,7 +806,7 @@ export function useSClassGeneration() {
       const childId = `extend_${Date.now()}_${sourceGroupId.substring(0, 8)}`;
       const childGroup: ShotGroup = {
         id: childId,
-        name: `${sourceGroup.name} - 延长`,
+        name: `${sourceGroup.name} - Kéo dài`,
         sceneIds: [...sourceGroup.sceneIds],
         sortIndex: sourceGroup.sortIndex + 0.5,
         totalDuration: Math.max(4, Math.min(15, extendDuration)) as ShotGroup["totalDuration"],

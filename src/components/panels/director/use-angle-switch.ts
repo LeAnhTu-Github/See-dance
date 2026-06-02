@@ -71,7 +71,7 @@ export function useAngleSwitch({
 
     const imageUrl = type === "start" ? scene.imageDataUrl : scene.endFrameImageUrl;
     if (!imageUrl) {
-      toast.error(`请先生成${type === "start" ? "首帧" : "尾帧"}`);
+      toast.error(`Vui lòng tạo ${type === "start" ? "khung hình đầu" : "khung hình cuối"} trước`);
       return;
     }
 
@@ -98,7 +98,7 @@ export function useAngleSwitch({
     const runninghubBaseUrl = runninghubProvider?.baseUrl?.trim();
     const runninghubAppId = runninghubProvider?.model?.[0];
     if (!runninghubKey || !runninghubBaseUrl || !runninghubAppId) {
-      toast.error("请先在设置中配置 RunningHub（API Key / Base URL / 模型AppId）");
+      toast.error("Vui lòng cấu hình RunningHub trong phần cài đặt trước (API Key / Base URL / AppId mô hình)");
       setAngleSwitchOpen(false);
       return;
     }
@@ -108,7 +108,7 @@ export function useAngleSwitch({
 
     const originalImage = angleSwitchTarget.type === "start" ? scene.imageDataUrl : scene.endFrameImageUrl;
     if (!originalImage) {
-      toast.error("找不到原图");
+      toast.error("Không tìm thấy ảnh gốc");
       return;
     }
 
@@ -154,9 +154,9 @@ export function useAngleSwitch({
       setAngleSwitchOpen(false);
       setAngleSwitchResultOpen(true);
 
-      toast.success("视角切换生成完成");
+      toast.success("Tạo chuyển góc nhìn hoàn tất");
     } catch (error) {
-      toast.error(`视角切换失败: ${(error as Error).message}`);
+      toast.error(`Chuyển góc nhìn thất bại: ${(error as Error).message}`);
     } finally {
       setIsAngleSwitching(false);
     }
@@ -187,7 +187,7 @@ export function useAngleSwitch({
     setAngleSwitchResult(null);
     setAngleSwitchTarget(null);
     setSelectedHistoryIndex(-1);
-    toast.success("视角已应用");
+    toast.success("Đã áp dụng góc nhìn");
   }, [angleSwitchResult, angleSwitchTarget, splitScenes, selectedHistoryIndex, updateSplitSceneImage, updateSplitSceneEndFrame]);
 
   // Helper to get history for current target

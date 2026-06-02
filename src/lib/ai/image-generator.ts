@@ -356,14 +356,14 @@ async function submitViaChatCompletions(
     // 每次重试独立创建 AbortController，避免共享 controller 在重试时已超时
     const controller = new AbortController();
     const timeoutId = setTimeout(
-      () => controller.abort(new DOMException('图片生成请求超时（60秒），请检查网络后重试', 'TimeoutError')),
+      () => controller.abort(new DOMException('Yêu cầu tạo ảnh đã quá thời gian (60 giây), vui lòng kiểm tra mạng rồi thử lại', 'TimeoutError')),
       60000
     );
 
     // 外部 signal 取消时同步取消内部 controller，并传播 reason
-    const onExternalAbort = () => controller.abort(signal?.reason || new Error('用户已取消'));
+    const onExternalAbort = () => controller.abort(signal?.reason || new Error('Người dùng đã hủy'));
     if (signal) {
-      if (signal.aborted) throw new Error('用户已取消');
+      if (signal.aborted) throw new Error('Người dùng đã hủy');
       signal.addEventListener('abort', onExternalAbort, { once: true });
     }
 
@@ -390,16 +390,16 @@ async function submitViaChatCompletions(
           keyManager.handleError(resp.status, errorText);
         }
 
-        let msg = `图片生成 API 错误: ${resp.status}`;
+        let msg = `Lỗi API tạo ảnh: ${resp.status}`;
         try { const j = JSON.parse(errorText); msg = j.error?.message || msg; } catch {}
 
         // 401 专项提示：引导用户检查 API Key
         if (resp.status === 401) {
-          msg = `API Key 无效或已过期，请前往「设置」检查图片生成服务的 API Key 配置（原始信息：${msg}）`;
+          msg = `API Key không hợp lệ hoặc đã hết hạn, vui lòng vào «Cài đặt» để kiểm tra cấu hình API Key của dịch vụ tạo ảnh (thông tin gốc: ${msg})`;
         }
         // 502 专项提示：上游服务临时不可用
         if (resp.status === 502) {
-          msg = `API 上游服务暂时不可用（502），将自动重试（原始信息：${msg}）`;
+          msg = `Dịch vụ API thượng nguồn tạm thời không khả dụng (502), sẽ tự động thử lại (thông tin gốc: ${msg})`;
         }
 
         const err = new Error(msg) as Error & { status?: number };
@@ -414,7 +414,7 @@ async function submitViaChatCompletions(
         const reason = controller.signal.reason;
         const readableMsg = reason instanceof Error
           ? reason.message
-          : (typeof reason === 'string' ? reason : '请求被中止，请重试');
+          : (typeof reason === 'string' ? reason : 'Yêu cầu đã bị hủy, vui lòng thử lại');
         const abortErr = new Error(readableMsg) as Error & { status?: number };
         throw abortErr;
       }
@@ -468,7 +468,7 @@ async function submitViaChatCompletions(
     }
 
     if (!lastChunk) {
-      throw new Error(`无法解析图片 API 响应: ${responseText.substring(0, 120)}`);
+      throw new Error(`Không thể phân tích phản hồi API ảnh: ${responseText.substring(0, 120)}`);
     }
 
     // Reconstruct standard response format from accumulated deltas
@@ -487,7 +487,7 @@ async function submitViaChatCompletions(
 
   // Extract image from response - multiple possible formats
   const choice = data.choices?.[0];
-  if (!choice) throw new Error('响应中无有效内容');
+  if (!choice) throw new Error('Phản hồi không có nội dung hợp lệ');
 
   const message = choice.message;
 
@@ -518,7 +518,7 @@ async function submitViaChatCompletions(
     if (b64Match) return { imageUrl: b64Match[1] };
   }
 
-  throw new Error('未能从响应中提取图片 URL');
+  throw new Error('Không thể trích xuất URL ảnh từ phản hồi');
 }
 
 /**
@@ -536,7 +536,7 @@ async function submitImageTask(
   endpointTypes?: string[],
 ): Promise<{ taskId?: string; imageUrl?: string; pollUrl?: string }> {
   if (!baseUrl) {
-    throw new Error('请先在设置中配置图片生成服务映射');
+    throw new Error('Vui lòng cấu hình ánh xạ dịch vụ tạo ảnh trong Cài đặt trước');
   }
   // 根据模型决定 size 格式
   let sizeValue: string = aspectRatio;
@@ -598,7 +598,7 @@ async function submitImageTask(
             keyManager.handleError(response.status, errorText);
           }
 
-          let errorMessage = `图片生成 API 错误: ${response.status}`;
+          let errorMessage = `Lỗi API tạo ảnh: ${response.status}`;
           try {
             const errorJson = JSON.parse(errorText);
             errorMessage = errorJson.error?.message || errorJson.message || errorJson.msg || errorMessage;
@@ -607,14 +607,14 @@ async function submitImageTask(
           }
 
           if (response.status === 401 || response.status === 403) {
-            throw new Error('API Key 无效或已过期');
+            throw new Error('API Key không hợp lệ hoặc đã hết hạn');
           } else if (response.status === 529 || response.status === 503) {
             // 上游负载饱和/服务不可用，需要触发重试
-            const err = new Error(errorMessage || `上游服务暂时不可用 (${response.status})`) as Error & { status?: number };
+            const err = new Error(errorMessage || `Dịch vụ thượng nguồn tạm thời không khả dụng (${response.status})`) as Error & { status?: number };
             err.status = response.status;
             throw err;
           } else if (response.status >= 500) {
-            const err = new Error(errorMessage || '图片生成服务暂时不可用') as Error & { status?: number };
+            const err = new Error(errorMessage || 'Dịch vụ tạo ảnh tạm thời không khả dụng') as Error & { status?: number };
             err.status = response.status;
             throw err;
           }
@@ -633,7 +633,7 @@ async function submitImageTask(
           if (sseMatch) {
             return JSON.parse(sseMatch[1]);
           }
-          throw new Error(`无法解析图片 API 响应: ${text.substring(0, 100)}`);
+          throw new Error(`Không thể phân tích phản hồi API ảnh: ${text.substring(0, 100)}`);
         }
       } finally {
         clearTimeout(timeoutId);
@@ -685,10 +685,10 @@ async function submitImageTask(
     return { taskId, pollUrl };
   } catch (error) {
     if (error instanceof Error) {
-      if (error.name === 'AbortError') throw new Error('API 请求超时');
+      if (error.name === 'AbortError') throw new Error('Yêu cầu API đã quá thời gian');
       throw error;
     }
-    throw new Error('调用图片生成 API 时发生未知错误');
+    throw new Error('Đã xảy ra lỗi không xác định khi gọi API tạo ảnh');
   }
 }
 
@@ -768,7 +768,7 @@ async function pollTaskStatus(
     }
   }
 
-  throw new Error('图片生成超时');
+  throw new Error('Tạo ảnh đã quá thời gian');
 }
 
 /**
@@ -830,7 +830,7 @@ export async function submitGridImageRequest(params: {
   const data = await retryOperation(async () => {
     // 每次重试动态取当前 key（利用 keyManager rotate 后的新 key）
     const currentApiKey = keyManager?.getCurrentKey?.() || apiKey;
-    if (signal?.aborted) throw new Error('用户已取消');
+    if (signal?.aborted) throw new Error('Người dùng đã hủy');
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -847,7 +847,7 @@ export async function submitGridImageRequest(params: {
       if (keyManager?.handleError) {
         keyManager.handleError(response.status, errorText);
       }
-      let errorMessage = `API 失败: ${response.status}`;
+      let errorMessage = `API thất bại: ${response.status}`;
       try {
         const errJson = JSON.parse(errorText);
         errorMessage = errJson.error?.message || errJson.message || errorMessage;
@@ -954,7 +954,7 @@ async function submitViaKlingImages(
       if (keyManager?.handleError) {
         keyManager.handleError(response.status, errText);
       }
-      const err = new Error(`Kling image API 错误: ${response.status} ${errText}`) as Error & { status?: number };
+      const err = new Error(`Lỗi API Kling image: ${response.status} ${errText}`) as Error & { status?: number };
       err.status = response.status;
       throw err;
     }
@@ -973,7 +973,7 @@ async function submitViaKlingImages(
   if (directUrl) return { imageUrl: directUrl };
 
   const taskId = data.data?.task_id;
-  if (!taskId) throw new Error('Kling image 返回空任务 ID');
+  if (!taskId) throw new Error('Kling image trả về ID tác vụ rỗng');
 
   const pollUrl = `${rootBase}/${nativePath}/${taskId}`;
   const pollInterval = 2000;
@@ -990,14 +990,14 @@ async function submitViaKlingImages(
     const status = String(pollData.data?.task_status || '').toLowerCase();
     if (status === 'succeed' || status === 'success' || status === 'completed') {
       const imageUrl = pollData.data?.task_result?.images?.[0]?.url;
-      if (!imageUrl) throw new Error('Kling image 成功但无图片 URL');
+      if (!imageUrl) throw new Error('Kling image thành công nhưng không có URL ảnh');
       return { imageUrl, taskId: String(taskId) };
     }
     if (status === 'failed' || status === 'error') {
-      throw new Error(pollData.data?.task_status_msg || 'Kling image 生成失败');
+      throw new Error(pollData.data?.task_status_msg || 'Kling image tạo ảnh thất bại');
     }
   }
-  throw new Error('Kling image 生成超时');
+  throw new Error('Kling image tạo ảnh đã quá thời gian');
 }
 
 /**

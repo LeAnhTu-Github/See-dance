@@ -1,4 +1,4 @@
-$projectRoot = Split-Path -Path $PSScriptRoot -Parent
+﻿$projectRoot = Split-Path -Path $PSScriptRoot -Parent
 $releaseDir = Join-Path $projectRoot "release"
 $builderOutputDir = Join-Path $releaseDir "build"
 $normalizedReleaseDir = [System.IO.Path]::GetFullPath($releaseDir)
@@ -42,7 +42,7 @@ function Stop-ProcessTree {
 
 $processIds = New-Object "System.Collections.Generic.HashSet[int]"
 
-foreach ($process in Get-Process -Name "moyin-creator", "魔因漫创" -ErrorAction SilentlyContinue) {
+foreach ($process in Get-Process -Name "moyin-creator", "Seedance Creator" -ErrorAction SilentlyContinue) {
   $null = $processIds.Add([int]$process.Id)
 }
 

@@ -165,16 +165,16 @@ export async function processBatched<TItem, TResult>(
 
   // 单批次无需并发调度
   if (batches.length === 1) {
-    onProgress?.(0, 1, `处理中 (1/1)...`);
+    onProgress?.(0, 1, `Đang xử lý (1/1)...`);
     try {
       const result = await executeBatchWithRetry(
         batches[0], feature, buildPrompts, parseResult, apiOptions,
       );
-      onProgress?.(1, 1, '完成');
+      onProgress?.(1, 1, 'Hoàn thành');
       return { results: result, failedBatches: 0, totalBatches: 1 };
     } catch (err) {
       console.error('[BatchProcessor] 唯一批次失败:', err);
-      onProgress?.(1, 1, '失败');
+      onProgress?.(1, 1, 'Thất bại');
       return { results: new Map(), failedBatches: 1, totalBatches: 1 };
     }
   }
@@ -185,12 +185,12 @@ export async function processBatched<TItem, TResult>(
 
   const batchTasks = batches.map((batch, idx) => {
     return async () => {
-      onProgress?.(completedCount, batches.length, `处理批次 ${idx + 1}/${batches.length}...`);
+      onProgress?.(completedCount, batches.length, `Đang xử lý lô ${idx + 1}/${batches.length}...`);
       const result = await executeBatchWithRetry(
         batch, feature, buildPrompts, parseResult, apiOptions,
       );
       completedCount++;
-      onProgress?.(completedCount, batches.length, `批次 ${idx + 1} 完成`);
+      onProgress?.(completedCount, batches.length, `Lô ${idx + 1} hoàn thành`);
       return result;
     };
   });
@@ -227,7 +227,7 @@ export async function processBatched<TItem, TResult>(
     }
   }
 
-  onProgress?.(batches.length, batches.length, `完成 (${failedBatches > 0 ? `${failedBatches} 批失败` : '全部成功'})`);
+  onProgress?.(batches.length, batches.length, `Hoàn thành (${failedBatches > 0 ? `${failedBatches} lô thất bại` : 'Tất cả thành công'})`);
 
   return { results: finalResults, failedBatches, totalBatches: batches.length };
 }

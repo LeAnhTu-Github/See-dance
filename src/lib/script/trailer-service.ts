@@ -56,7 +56,7 @@ export async function selectTrailerShots(
       success: false,
       selectedShots: [],
       shotIds: [],
-      error: '没有可用的分镜',
+      error: 'Không có phân cảnh khả dụng',
     };
   }
 
@@ -166,7 +166,7 @@ ${shotSummaries.map(s =>
     }
     
     if (selectedIndices.length === 0) {
-      throw new Error('AI 返回格式错误，无法解析序号');
+      throw new Error('AI trả về sai định dạng, không thể phân tích số thứ tự');
     }
     
     console.log('[TrailerService] Parsed selectedIndices:', selectedIndices);
@@ -190,7 +190,7 @@ ${shotSummaries.map(s =>
       success: true,
       selectedShots: fallbackShots,
       shotIds: fallbackShots.map(s => s.id),
-      error: 'AI 挑选失败，使用规则挑选',
+      error: 'AI chọn thất bại, dùng quy tắc để chọn',
     };
   }
 }
@@ -274,7 +274,7 @@ export function convertShotsToSplitScenes(
 ): SplitScene[] {
   return shots.map((shot, index) => ({
     id: index,
-    sceneName: sceneName || `预告片 #${index + 1}`,
+    sceneName: sceneName || `Trailer #${index + 1}`,
     sceneLocation: '',
     imageDataUrl: '',
     imageHttpUrl: null,

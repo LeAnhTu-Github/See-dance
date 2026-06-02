@@ -2,7 +2,21 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(mkdir -p ~/.ssh)",
+      "Bash(ssh-keyscan -t rsa,ecdsa,ed25519 github.com)",
+      "Bash(npm run *)",
+      "Read(//tmp/**)",
+      "Bash(mv /tmp/ps1new scripts/prebuild-cleanup.ps1)",
+      "Bash(npx electron-vite *)",
+      "Bash(claude logs *)",
+      "Bash(git -C \"C:/Users/Admin/Documents/xtel/moyin-creator\" status --short)",
+      "Bash(git -C \"C:/Users/Admin/Documents/xtel/moyin-creator\" diff --stat)",
+      "Bash(claude agents *)",
+      "Read(//c/Users/Admin/Documents/xtel/**)",
+      "Read(//c/Users/Admin/.claude/**)"
     ]
   }
 }

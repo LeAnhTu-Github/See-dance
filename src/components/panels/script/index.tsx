@@ -828,7 +828,7 @@ export function ScriptView() {
     }
 
     const scene = scriptData?.scenes.find(s => s.id === sceneId);
-    const sceneName = scene?.name || scene?.location || '场景';
+    const sceneName = scene?.name || scene?.location || 'Cảnh';
 
     addSecondPass('shots');
     setViewpointAnalysisStatus('analyzing');
@@ -2251,7 +2251,7 @@ export function ScriptView() {
           dialogue: shot.dialogue || '',
           actionSummary: shot.actionSummary || '',
           cameraMovement: shot.cameraMovement || '',
-          sceneName: `预告片 #${idx + 1}`,
+          sceneName: `Đoạn giới thiệu #${idx + 1}`,
           sceneLocation: '',
           // 叙事驱动字段
           narrativeFunction: (shot as any).narrativeFunction || '',

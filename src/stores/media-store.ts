@@ -50,9 +50,9 @@ export const SYSTEM_CATEGORIES: Array<{
   name: string;
   icon: string; // lucide icon name for UI reference
 }> = [
-  { category: 'ai-image', name: 'AI图片', icon: 'Sparkles' },
-  { category: 'ai-video', name: 'AI视频', icon: 'Film' },
-  { category: 'upload',   name: '上传文件', icon: 'CloudUpload' },
+  { category: 'ai-image', name: 'Ảnh AI', icon: 'Sparkles' },
+  { category: 'ai-video', name: 'Video AI', icon: 'Film' },
+  { category: 'upload',   name: 'Tệp tải lên', icon: 'CloudUpload' },
 ];
 
 interface MediaStore {
@@ -605,7 +605,7 @@ export const useMediaStore = create<MediaStore>()(
         set((state) => ({
           folders: state.folders.map((f) =>
             f.id === legacyAiFolder.id
-              ? { ...f, name: 'AI图片', isSystem: true, category: 'ai-image' as const, projectId: undefined }
+              ? { ...f, name: 'Ảnh AI', isSystem: true, category: 'ai-image' as const, projectId: undefined }
               : f
           ),
         }));

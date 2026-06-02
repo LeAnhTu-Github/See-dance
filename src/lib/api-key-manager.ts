@@ -40,7 +40,7 @@ export interface IProvider {
 export const DEFAULT_PROVIDERS: Omit<IProvider, 'id' | 'apiKey'>[] = [
   {
     platform: 'memefast',
-    name: '魔因API',
+    name: 'Moyin API',
     baseUrl: 'https://memefast.top',
     model: [
       'deepseek-v3.2',
@@ -240,7 +240,7 @@ export function getApiKeyCount(apiKey: string): number {
  * Mask an API key for display
  */
 export function maskApiKey(key: string): string {
-  if (!key || key.length === 0) return '未设置';
+  if (!key || key.length === 0) return 'Chưa đặt';
   if (key.length <= 10) return `${key.substring(0, 4)}***`;
   return `${key.substring(0, 8)}...${key.substring(key.length - 4)}`;
 }

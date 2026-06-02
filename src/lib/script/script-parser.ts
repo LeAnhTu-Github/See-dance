@@ -224,7 +224,7 @@ export async function callChatAPI(
   
   if (!apiKey) {
     console.error('[callChatAPI] ❌ API Key 为空！');
-    throw new Error('API Key 未配置');
+    throw new Error('Chưa cấu hình API Key');
   }
   
   // Create or use existing key manager for rotation
@@ -234,10 +234,10 @@ export async function callChatAPI(
   console.log(`[callChatAPI] 使用 ${provider}，共 ${totalKeys} 个 API keys`);
 
   if (!baseUrl) {
-    throw new Error('Base URL 未配置');
+    throw new Error('Chưa cấu hình Base URL');
   }
   if (!model) {
-    throw new Error('模型未配置');
+    throw new Error('Chưa cấu hình mô hình');
   }
   const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
   const url = /\/v\d+$/.test(normalizedBaseUrl)
@@ -266,8 +266,8 @@ export async function callChatAPI(
   // 输入已超过 context window 的 90% → 抛出错误（不发请求，省钱）
   if (inputTokens > modelLimits.contextWindow * 0.9) {
     const err = new Error(
-      `[TokenBudget] 输入 token (≈${inputTokens}) 超出 ${model} 的 context window ` +
-      `(${modelLimits.contextWindow}) 的 90%，请缩减输入或使用更大上下文的模型`
+      `[TokenBudget] Token đầu vào (≈${inputTokens}) vượt quá 90% context window ` +
+      `(${modelLimits.contextWindow}) của ${model}, vui lòng giảm bớt đầu vào hoặc dùng mô hình có ngữ cảnh lớn hơn`
     );
     (err as any).code = 'TOKEN_BUDGET_EXCEEDED';
     (err as any).inputTokens = inputTokens;
@@ -393,7 +393,7 @@ export async function callChatAPI(
         if (keyManager.handleError(403)) {
           console.warn(`[callChatAPI] 内容被安全过滤(${finishReason})，轮换 key 重试`);
         }
-        throw new Error(`内容被安全过滤(finish_reason: ${finishReason})`);
+        throw new Error(`Nội dung bị bộ lọc an toàn chặn (finish_reason: ${finishReason})`);
       }
       
       // 推理模型回退：如果有 reasoning_content 但 content 为空，说明模型耗尽 token 在思考上
@@ -491,8 +491,8 @@ ${rawScript}
     // Validate and transform scenes with detailed visual design
     const scenes = (parsed.scenes || []).map((s: any, i: number) => ({
       id: s.id || `scene_${i + 1}`,
-      name: s.name || s.location || `场景${i + 1}`,
-      location: s.location || '未知地点',
+      name: s.name || s.location || `Cảnh ${i + 1}`,
+      location: s.location || 'Địa điểm không xác định',
       time: normalizeTimeValue(s.time),
       atmosphere: s.atmosphere || '',
       visualPrompt: s.visualPrompt || '', // 用于场景概念图生成
@@ -504,7 +504,7 @@ ${rawScript}
     // Validate and transform characters with ALL extended fields
     const characters = (parsed.characters || []).map((c: any, i: number) => ({
       id: c.id || `char_${i + 1}`,
-      name: c.name || `角色${i + 1}`,
+      name: c.name || `Nhân vật ${i + 1}`,
       gender: c.gender,
       age: c.age,
       personality: c.personality,
@@ -522,7 +522,7 @@ ${rawScript}
     let episodes = (parsed.episodes || []).map((e: any, i: number) => ({
       id: e.id || `ep_${i + 1}`,
       index: e.index || i + 1,
-      title: e.title || `第${i + 1}集`,
+      title: e.title || `Tập ${i + 1}`,
       description: e.description,
       sceneIds: e.sceneIds || [],
     }));
@@ -532,7 +532,7 @@ ${rawScript}
       episodes = [{
         id: 'ep_1',
         index: 1,
-        title: parsed.title || '第1集',
+        title: parsed.title || 'Tập 1',
         description: parsed.logline,
         sceneIds: scenes.map((s: any) => s.id),
       }];
@@ -547,7 +547,7 @@ ${rawScript}
     }
 
     const scriptData: ScriptData = {
-      title: parsed.title || '未命名剧本',
+      title: parsed.title || 'Kịch bản chưa đặt tên',
       genre: parsed.genre,
       logline: parsed.logline,
       language: options.language || '中文',
@@ -564,7 +564,7 @@ ${rawScript}
     return scriptData;
   } catch (e) {
     console.error('[parseScript] Failed to parse JSON:', cleaned);
-    throw new Error('无法解析AI返回的剧本数据');
+    throw new Error('Không thể phân tích dữ liệu kịch bản do AI trả về');
   }
 }
 

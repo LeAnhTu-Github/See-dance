@@ -106,7 +106,7 @@ export async function importFullScript(
         background: null,
         episodes: [],
         scriptData: null,
-        error: "未能解析出任何集数，请检查剧本格式",
+        error: "Không thể phân tích được tập nào, vui lòng kiểm tra định dạng kịch bản",
       };
     }
     
@@ -155,7 +155,7 @@ export async function importFullScript(
       background: null,
       episodes: [],
       scriptData: null,
-      error: error instanceof Error ? error.message : "导入失败",
+      error: error instanceof Error ? error.message : "Nhập kịch bản thất bại",
     };
   }
 }
@@ -188,13 +188,13 @@ export async function importSingleEpisodeContent(
     const store = useScriptStore.getState();
     const project = store.projects[projectId];
     if (!project?.scriptData) {
-      return { success: false, sceneCount: 0, error: '项目或剧本数据不存在' };
+      return { success: false, sceneCount: 0, error: 'Dự án hoặc dữ liệu kịch bản không tồn tại' };
     }
 
     const scriptData = project.scriptData;
     const episode = scriptData.episodes.find(e => e.index === episodeIndex);
     if (!episode) {
-      return { success: false, sceneCount: 0, error: `找不到第 ${episodeIndex} 集` };
+      return { success: false, sceneCount: 0, error: `Không tìm thấy tập ${episodeIndex}` };
     }
 
     // === 1. 预处理 + 场景解析 ===
@@ -281,7 +281,7 @@ export async function importSingleEpisodeContent(
     return {
       success: false,
       sceneCount: 0,
-      error: error instanceof Error ? error.message : '结构补全失败',
+      error: error instanceof Error ? error.message : 'Hoàn thiện cấu trúc thất bại',
     };
   }
 }
@@ -383,15 +383,15 @@ export async function generateEpisodeShots(
   const project = store.projects[projectId];
   
   if (!project) {
-    throw new Error("项目不存在");
+    throw new Error("Dự án không tồn tại");
   }
-  
+
   const episodeScript = project.episodeRawScripts.find(
     (ep) => ep.episodeIndex === episodeIndex
   );
   
   if (!episodeScript) {
-    throw new Error(`找不到第 ${episodeIndex} 集的剧本`);
+    throw new Error(`Không tìm thấy kịch bản của tập ${episodeIndex}`);
   }
   
   // 更新集的生成状态
@@ -400,17 +400,17 @@ export async function generateEpisodeShots(
   });
   
   try {
-    onProgress?.(`正在为第 ${episodeIndex} 集生成分镜...`);
-    
+    onProgress?.(`Đang tạo phân cảnh cho tập ${episodeIndex}...`);
+
     // 获取该集对应的场景
     const scriptData = project.scriptData;
     if (!scriptData) {
-      throw new Error("剧本数据不存在");
+      throw new Error("Dữ liệu kịch bản không tồn tại");
     }
-    
+
     const episode = scriptData.episodes.find((ep) => ep.index === episodeIndex);
     if (!episode) {
-      throw new Error(`找不到第 ${episodeIndex} 集的结构数据`);
+      throw new Error(`Không tìm thấy dữ liệu cấu trúc của tập ${episodeIndex}`);
     }
     
     const episodeScenes = scriptData.scenes.filter((s) =>
@@ -471,7 +471,7 @@ export async function generateEpisodeShots(
     }
     
     if (options.apiKey && episodeScenes.length > 0) {
-      onProgress?.(`正在 AI 分析场景视角（共 ${episodeScenes.length} 个场景）...`);
+      onProgress?.(`Đang phân tích góc nhìn cảnh bằng AI (tổng ${episodeScenes.length} cảnh)...`);
       
       try {
         // 获取本集大纲和关键事件
@@ -518,7 +518,7 @@ export async function generateEpisodeShots(
           
           console.log(`[generateEpisodeShots] 场景 ${i + 1}/${episodeScenes.length}: "${scene.location}" 有 ${sceneShots.length} 个分镜`);
           analysisExecuted = true;
-          onProgress?.(`AI 分析场景 ${i + 1}/${episodeScenes.length}: ${scene.location}...`);
+          onProgress?.(`AI phân tích cảnh ${i + 1}/${episodeScenes.length}: ${scene.location}...`);
           
           console.log(`[generateEpisodeShots] 🔄 调用 analyzeSceneViewpoints for "${scene.location}"...`);
           const result = await analyzeSceneViewpoints(scene, sceneShots, viewpointOptions);
@@ -652,7 +652,7 @@ export async function generateEpisodeShots(
           viewpointSkippedReason = '无分镜';
         }
         
-        onProgress?.(`AI 视角分析完成（${viewpointCount} 个视角）`);
+        onProgress?.(`Phân tích góc nhìn AI hoàn tất (${viewpointCount} góc nhìn)`);
       } catch (e) {
         const err = e as Error;
         console.error('\n============================================');
@@ -671,7 +671,7 @@ export async function generateEpisodeShots(
       lastGeneratedAt: Date.now(),
     });
     
-    onProgress?.(`第 ${episodeIndex} 集分镜生成完成！共 ${newShots.length} 个分镜`);
+    onProgress?.(`Tạo phân cảnh cho tập ${episodeIndex} hoàn tất! Tổng ${newShots.length} phân cảnh`);
     
     return { shots: newShots, viewpointAnalyzed, viewpointSkippedReason };
   } catch (error) {
@@ -707,7 +707,7 @@ async function generateShotsForEpisode(
   
   for (let i = 0; i < scenes.length; i++) {
     const scene = scenes[i];
-    onProgress?.(`处理场景 ${i + 1}/${scenes.length}: ${scene.name || scene.location}`);
+    onProgress?.(`Xử lý cảnh ${i + 1}/${scenes.length}: ${scene.name || scene.location}`);
     
     // 基于场景内容生成分镜
     const sceneShots = generateShotsFromSceneContent(
@@ -984,14 +984,14 @@ export async function regenerateAllEpisodeShots(
   const project = store.projects[projectId];
   
   if (!project || !project.episodeRawScripts.length) {
-    throw new Error("没有可生成的集");
+    throw new Error("Không có tập nào để tạo");
   }
-  
+
   const totalEpisodes = project.episodeRawScripts.length;
-  
+
   for (let i = 0; i < totalEpisodes; i++) {
     const ep = project.episodeRawScripts[i];
-    onProgress?.(i + 1, totalEpisodes, `正在生成第 ${ep.episodeIndex} 集...`);
+    onProgress?.(i + 1, totalEpisodes, `Đang tạo tập ${ep.episodeIndex}...`);
     
     await generateEpisodeShots(
       ep.episodeIndex,
@@ -1118,23 +1118,23 @@ export async function calibrateEpisodeTitles(
   const project = store.projects[projectId];
   
   if (!project) {
-    return { success: false, calibratedCount: 0, totalMissing: 0, error: '项目不存在' };
+    return { success: false, calibratedCount: 0, totalMissing: 0, error: 'Dự án không tồn tại' };
   }
-  
+
   // 找出缺失标题的集数
   const missingEpisodes = getMissingTitleEpisodes(projectId);
   const totalMissing = missingEpisodes.length;
-  
+
   if (totalMissing === 0) {
     return { success: true, calibratedCount: 0, totalMissing: 0 };
   }
-  
-  onProgress?.(0, totalMissing, `找到 ${totalMissing} 集缺失标题，开始校准...`);
+
+  onProgress?.(0, totalMissing, `Tìm thấy ${totalMissing} tập thiếu tiêu đề, bắt đầu hiệu chỉnh...`);
   
   // 获取全局背景信息
   const background = project.projectBackground;
   const globalContext = {
-    title: background?.title || project.scriptData?.title || '未命名剧本',
+    title: background?.title || project.scriptData?.title || 'Kịch bản chưa đặt tên',
     outline: background?.outline || project.scriptData?.logline || '',
     characterBios: background?.characterBios || '',
     totalEpisodes: project.episodeRawScripts.length,
@@ -1207,7 +1207,7 @@ ${characterBios.slice(0, 1000)}
       },
       estimateItemOutputTokens: () => 30, // 标题很短，每集约 30 tokens
       onProgress: (completed, total, message) => {
-        onProgress?.(completed, total, `[标题校准] ${message}`);
+        onProgress?.(completed, total, `[Hiệu chỉnh tiêu đề] ${message}`);
       },
     });
     
@@ -1237,7 +1237,7 @@ ${characterBios.slice(0, 1000)}
       console.warn(`[集标题校准] ${failedBatches}/${totalBatches} 批次失败`);
     }
     
-    onProgress?.(calibratedCount, totalMissing, `已校准 ${calibratedCount}/${totalMissing} 集`);
+    onProgress?.(calibratedCount, totalMissing, `Đã hiệu chỉnh ${calibratedCount}/${totalMissing} tập`);
     
     return {
       success: true,
@@ -1250,7 +1250,7 @@ ${characterBios.slice(0, 1000)}
       success: false,
       calibratedCount: 0,
       totalMissing,
-      error: error instanceof Error ? error.message : '校准失败',
+      error: error instanceof Error ? error.message : 'Hiệu chỉnh thất bại',
     };
   }
 }
@@ -1339,18 +1339,18 @@ export async function calibrateEpisodeShots(
   const project = store.projects[projectId];
   
   if (!project) {
-    return { success: false, calibratedCount: 0, totalShots: 0, error: '项目不存在' };
+    return { success: false, calibratedCount: 0, totalShots: 0, error: 'Dự án không tồn tại' };
   }
-  
+
   // 找到该集的分镜
   const scriptData = project.scriptData;
   if (!scriptData) {
-    return { success: false, calibratedCount: 0, totalShots: 0, error: '剧本数据不存在' };
+    return { success: false, calibratedCount: 0, totalShots: 0, error: 'Dữ liệu kịch bản không tồn tại' };
   }
-  
+
   const episode = scriptData.episodes.find(ep => ep.index === episodeIndex);
   if (!episode) {
-    return { success: false, calibratedCount: 0, totalShots: 0, error: `找不到第 ${episodeIndex} 集` };
+    return { success: false, calibratedCount: 0, totalShots: 0, error: `Không tìm thấy tập ${episodeIndex}` };
   }
   
   // 获取该集的所有分镜（可选：只校准指定场景的分镜）
@@ -1361,10 +1361,10 @@ export async function calibrateEpisodeShots(
   const totalShots = episodeShots.length;
   
   if (totalShots === 0) {
-    return { success: false, calibratedCount: 0, totalShots: 0, error: '该集没有分镜' };
+    return { success: false, calibratedCount: 0, totalShots: 0, error: 'Tập này không có phân cảnh' };
   }
-  
-  onProgress?.(0, totalShots, `开始校准第 ${episodeIndex} 集的 ${totalShots} 个分镜...`);
+
+  onProgress?.(0, totalShots, `Bắt đầu hiệu chỉnh ${totalShots} phân cảnh của tập ${episodeIndex}...`);
   
   // 获取全局背景信息
   const background = project.projectBackground;
@@ -1377,7 +1377,7 @@ export async function calibrateEpisodeShots(
   const seriesContextSummary = buildSeriesContextSummary(project.seriesMeta || null);
   
   const globalContext = {
-    title: background?.title || project.scriptData?.title || '未命名剧本',
+    title: background?.title || project.scriptData?.title || 'Kịch bản chưa đặt tên',
     genre: background?.genre || '',
     era: background?.era || '',
     outline: background?.outline || '',
@@ -1464,7 +1464,7 @@ export async function calibrateEpisodeShots(
     const settledBatchResults = await runStaggered(
       allBatches.map(({ batch, batchNum, batchData }) => async () => {
         console.log(`[calibrateShots] 🚀 启动批次 ${batchNum}/${totalBatches}`);
-        onProgress?.(calibratedCount, totalShots, `🚀 处理批次 ${batchNum}/${totalBatches}...`);
+        onProgress?.(calibratedCount, totalShots, `🚀 Xử lý lô ${batchNum}/${totalBatches}...`);
         
         // 带重试机制的 AI 调用
         let calibrations: Record<string, any> = {};
@@ -1479,7 +1479,7 @@ export async function calibrateEpisodeShots(
               globalContext,
               (stage, total, name) => {
                 console.log(`[calibrateShots] 批次 ${batchNum}/${totalBatches} - Stage ${stage}/${total}: ${name}`);
-                onProgress?.(calibratedCount, totalShots, `批次 ${batchNum} Stage ${stage}/${total}: ${name}`);
+                onProgress?.(calibratedCount, totalShots, `Lô ${batchNum} Giai đoạn ${stage}/${total}: ${name}`);
               }
             );
             completedBatches++;
@@ -1565,7 +1565,7 @@ export async function calibrateEpisodeShots(
       }
     }
     
-    onProgress?.(calibratedCount, totalShots, `已校准 ${calibratedCount}/${totalShots} 个分镜`);
+    onProgress?.(calibratedCount, totalShots, `Đã hiệu chỉnh ${calibratedCount}/${totalShots} phân cảnh`);
     
     // 保存更新后的分镜
     store.setShots(projectId, updatedShots);
@@ -1581,7 +1581,7 @@ export async function calibrateEpisodeShots(
       success: false,
       calibratedCount: 0,
       totalShots,
-      error: error instanceof Error ? error.message : '分镜校准失败',
+      error: error instanceof Error ? error.message : 'Hiệu chỉnh phân cảnh thất bại',
     };
   }
 }
@@ -1599,21 +1599,21 @@ export async function calibrateSingleShot(
   const project = store.projects[projectId];
   
   if (!project) {
-    return { success: false, calibratedCount: 0, totalShots: 1, error: '项目不存在' };
+    return { success: false, calibratedCount: 0, totalShots: 1, error: 'Dự án không tồn tại' };
   }
-  
+
   const scriptData = project.scriptData;
   if (!scriptData) {
-    return { success: false, calibratedCount: 0, totalShots: 1, error: '剧本数据不存在' };
+    return { success: false, calibratedCount: 0, totalShots: 1, error: 'Dữ liệu kịch bản không tồn tại' };
   }
-  
+
   // 找到目标分镜
   const shot = project.shots.find(s => s.id === shotId);
   if (!shot) {
-    return { success: false, calibratedCount: 0, totalShots: 1, error: `找不到分镜 ${shotId}` };
+    return { success: false, calibratedCount: 0, totalShots: 1, error: `Không tìm thấy phân cảnh ${shotId}` };
   }
-  
-  onProgress?.(`正在校准分镜...`);
+
+  onProgress?.(`Đang hiệu chỉnh phân cảnh...`);
   
   // 获取分镜所属的场景和集信息
   const scene = scriptData.scenes.find(s => s.id === shot.sceneRefId);
@@ -1626,7 +1626,7 @@ export async function calibrateSingleShot(
   const episodeRawContent = episodeScript?.rawContent || '';
   
   const globalContext = {
-    title: background?.title || scriptData?.title || '未命名剧本',
+    title: background?.title || scriptData?.title || 'Kịch bản chưa đặt tên',
     genre: background?.genre || '',
     era: background?.era || '',
     outline: background?.outline || '',
@@ -1685,7 +1685,7 @@ export async function calibrateSingleShot(
     const calibration = calibrations[shot.id];
     
     if (!calibration) {
-      return { success: false, calibratedCount: 0, totalShots: 1, error: 'AI 校准未返回结果' };
+      return { success: false, calibratedCount: 0, totalShots: 1, error: 'AI hiệu chỉnh không trả về kết quả' };
     }
     
     // 更新分镜
@@ -1738,7 +1738,7 @@ export async function calibrateSingleShot(
     });
     
     store.setShots(projectId, updatedShots);
-    onProgress?.(`分镜校准完成`);
+    onProgress?.(`Hiệu chỉnh phân cảnh hoàn tất`);
     
     return {
       success: true,
@@ -1751,7 +1751,7 @@ export async function calibrateSingleShot(
       success: false,
       calibratedCount: 0,
       totalShots: 1,
-      error: error instanceof Error ? error.message : '单个分镜校准失败',
+      error: error instanceof Error ? error.message : 'Hiệu chỉnh phân cảnh đơn lẻ thất bại',
     };
   }
 }
@@ -2241,7 +2241,7 @@ ${shotDescriptions}`;
       // 部分解析也失败
     }
     
-    throw new Error('解析 AI 响应失败');
+    throw new Error('Phân tích phản hồi AI thất bại');
   }
 }
 
@@ -2267,20 +2267,20 @@ export async function generateEpisodeSynopses(
   const project = store.projects[projectId];
   
   if (!project) {
-    return { success: false, generatedCount: 0, totalEpisodes: 0, error: '项目不存在' };
+    return { success: false, generatedCount: 0, totalEpisodes: 0, error: 'Dự án không tồn tại' };
   }
-  
+
   const episodes = project.episodeRawScripts;
   const totalEpisodes = episodes.length;
-  
+
   if (totalEpisodes === 0) {
-    return { success: false, generatedCount: 0, totalEpisodes: 0, error: '没有集数据' };
+    return { success: false, generatedCount: 0, totalEpisodes: 0, error: 'Không có dữ liệu tập' };
   }
   
   // 获取全局背景
   const background = project.projectBackground;
   const globalContext = {
-    title: background?.title || project.scriptData?.title || '未命名剧本',
+    title: background?.title || project.scriptData?.title || 'Kịch bản chưa đặt tên',
     genre: background?.genre || '',
     era: background?.era || '',
     worldSetting: background?.worldSetting || '',
@@ -2293,7 +2293,7 @@ export async function generateEpisodeSynopses(
   // 注入概览里的世界观知识（角色、阵营、核心冲突、关键物品等）
   const seriesCtx = buildSeriesContextSummary(project.seriesMeta || null);
   
-  onProgress?.(0, totalEpisodes, `开始为 ${totalEpisodes} 集生成大纲...`);
+  onProgress?.(0, totalEpisodes, `Bắt đầu tạo tóm tắt cho ${totalEpisodes} tập...`);
   
   try {
     // 准备 batch items
@@ -2375,7 +2375,7 @@ ${characterBios.slice(0, 800)}
       },
       estimateItemOutputTokens: () => 200, // 大纲 + keyEvents 约 200 tokens
       onProgress: (completed, total, message) => {
-        onProgress?.(completed, total, `[大纲生成] ${message}`);
+        onProgress?.(completed, total, `[Tạo tóm tắt] ${message}`);
       },
     });
     
@@ -2397,7 +2397,7 @@ ${characterBios.slice(0, 800)}
       console.warn(`[集大纲生成] ${failedBatches}/${totalBatches} 批次失败`);
     }
     
-    onProgress?.(generatedCount, totalEpisodes, `已生成 ${generatedCount}/${totalEpisodes} 集大纲`);
+    onProgress?.(generatedCount, totalEpisodes, `Đã tạo tóm tắt cho ${generatedCount}/${totalEpisodes} tập`);
     
     // 大纲生成完成后，更新项目元数据 MD
     const updatedMetadata = exportProjectMetadata(projectId);
@@ -2415,7 +2415,7 @@ ${characterBios.slice(0, 800)}
       success: false,
       generatedCount: 0,
       totalEpisodes,
-      error: error instanceof Error ? error.message : '大纲生成失败',
+      error: error instanceof Error ? error.message : 'Tạo tóm tắt thất bại',
     };
   }
 }

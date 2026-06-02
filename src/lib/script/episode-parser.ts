@@ -54,7 +54,7 @@ export function parseFullScript(fullText: string): {
   
   // 1. 提取标题
   const titleMatch = fullText.match(/[《「]([^》」]+)[》」]/);
-  const title = titleMatch ? titleMatch[1] : '未命名剧本';
+  const title = titleMatch ? titleMatch[1] : 'Kịch bản chưa đặt tên';
   
   // 2. 提取大纲（从"大纲："到"人物小传："之间的内容）
   // 支持 Markdown 格式：**大纲：** 或 大纲： 或 【大纲】
@@ -985,7 +985,7 @@ function extractCharactersFromScenes(
     newCharacters.push({
       id: `char_${index.value}`,
       name,
-      role: count > 5 ? `重要配角（出场${count}次）` : `次要角色（出场${count}次）`,
+      role: count > 5 ? `Vai phụ quan trọng (xuất hiện ${count} lần)` : `Vai phụ (xuất hiện ${count} lần)`,
     });
     index.value++;
   }
